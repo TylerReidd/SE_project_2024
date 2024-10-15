@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB connection string and database name
-const uri = "mongodb+srv://USERNAME:PASSWORD@cluster0.im4vf.mongodb.net/"; // Replace with your MongoDB URI
+const uri = "mongodb+srv://USERNAME:PASSWORD@cluster0.im4vf.mongodb.net/";
 const dbName = "SE-2024";
 
 // Function to connect to MongoDB
