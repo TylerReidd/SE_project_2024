@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB connection string and database name
 const uri = "mongodb+srv://USERNAME:PASSWORD@cluster0.im4vf.mongodb.net/"; // Replace with your MongoDB URI
-const dbName = "SE-2024"; // Replace with your database name
+const dbName = "SE-2024";
 
 // Function to connect to MongoDB
 async function connectToMongo() {
