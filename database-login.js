@@ -1,55 +1,28 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const { MongoClient } = require('mongodb');
 
-const app = express();
-app.use(express.json());  // For parsing JSON request bodies
+// MongoDB connection string and database name
+const uri = "mongodb+srv://chris:superduperpassword222@cluster0.im4vf.mongodb.net/"; // Replace with your MongoDB URI
+const dbName = "SE-2024"; // Replace with your database name
 
-// Secret for JWT (You should store it securely in environment variables)
-const JWT_SECRET = 'your_jwt_secret_key';
+// Function to connect to MongoDB
+async function connectToMongo() {
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  await client.connect(); // Connect to the database
+  return client.db(dbName); // Return the database instance
+}
 
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).send('Email and password are required.');
-  }
+// Function to check if the user exists in the database
+async function checkUser(username, password) {
+  const db = await connectToMongo(); // Connect to the database
 
   try {
-    // Check if the user exists in the database
-    const user = await usersCollection.findOne({ email });
-
-    if (user) {
-      // User exists, validate the password
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        return res.status(401).send('Invalid credentials.');
-      }
-    } else {
-      // User doesn't exist, create a new user
-      const hashedPassword = await bcrypt.hash(password, 10); // Hash the password for security
-
-      const newUser = {
-        email: email,
-        password: hashedPassword,
-        createdAt: new Date(),
-      };
-
-      await usersCollection.insertOne(newUser);
-      console.log('New user created:', email);
-    }
-
-    // Generate a JWT for authentication
-    const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '1h' });
-
-    res.json({ message: 'Login successful!', token });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Something went wrong.');
+    // Query the users collection to find a matching username and password
+    const user = await db.collection('USERS').findOne({ username, password });
+    return !!user; // Return true if the user exists, false otherwise
+  } catch (error) {
+    console.error('Error checking user:', error); // Log any errors
+    throw error; // Propagate the error
   }
-});
+}
 
-// Start the Express server
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+module.exports = { checkUser }; // Export the checkUser function for use in server.js
