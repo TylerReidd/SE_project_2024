@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { checkUser } = require('./database-login');  // Import the checkUser function
+const { checkUser, checkRole } = require('./database-login');  // Import the checkUser function
 const { MongoClient } = require('mongodb');
-
+ 
 // Initialize the express app
 const app = express();
 
@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB connection string and database name
-const uri = "mongodb+srv://USERNAME:PASSWORD@cluster0.im4vf.mongodb.net/";
+const uri = "mongodb+srv://tylerreid1988:LF1uvZFMm9XYmhQN@cluster0.im4vf.mongodb.net/";
 const dbName = "SE-2024";
 
 // Function to connect to MongoDB
@@ -32,15 +32,18 @@ app.post('/database-login.js', async (req, res) => {
   
   try {
     // Query the users collection to check if the user exists
-    const user = await db.collection('USERS').findOne({ username, password });
+    const user = checkUser(username, password);
+   
 
     // If user exists, login is successful
     if (user) {
-      res.send('Login successful!');
+       const role = await checkRole(username);
+      res.send('Login successful!' + role);
     } else {
       // If user doesn't exist, send an error message
       res.send('Invalid username or password');
     }
+    
   } catch (error) {
     // Handle any errors during database query
     res.status(500).send('Error connecting to the database');
