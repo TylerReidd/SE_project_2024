@@ -25,6 +25,19 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html'); // Serve the login page (index.html)
 });
 
+app.get('/professor_page.html', (req, res) => {
+  res.sendFile(__dirname + '/professor_page.html');
+})
+
+app.get('/student_page.html', (req, res) => {
+  res.sendFile(__dirname + '/student_page.html');
+})
+
+app.get('/admin_page.html', (req, res) => {
+  res.sendFile(__dirname + '/admin_page.html');
+})
+
+
 // POST route to handle login form submission
 app.post('/database-login.js', async (req, res) => {
   const { username, password } = req.body; // Get username and password from form submission
@@ -38,7 +51,16 @@ app.post('/database-login.js', async (req, res) => {
     // If user exists, login is successful
     if (user) {
        const role = await checkRole(username);
-      res.send('Login successful!' + role);
+       if (role == "prof") {
+        res.redirect('/professor_page.html');
+       }
+       else if (role == 'admin') {
+        res.redirect('/admin_page.html'); ;
+       }
+       else if (role == 'stud') {
+        res.redirect('/student_page.html');
+       }
+      // res.send('Login successful!' + role);
     } else {
       // If user doesn't exist, send an error message
       res.send('Invalid username or password');
