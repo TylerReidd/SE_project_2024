@@ -40,12 +40,25 @@ app.get('/admin_page.html', (req, res) => {
   res.sendFile(__dirname + '/admin_page.html');
 })
 
+app.get('/load-grades/:username', async (req, res) => {
+  const username = req.params.username;
+  try {
+      const grades = await loadGrades(username); // Assuming loadGrades returns grades
+      res.json(grades); // Send grades as JSON
+  } catch (error) {
+      console.error('Error loading grades:', error);
+      res.status(500).send('Error loading grades');
+  }
+});
+
 
 // POST route to handle login form submission
 app.post('/database-login.js', async (req, res) => {
   const { username, password } = req.body; // Get username and password from form submission
   const db = await connectToMongo(); // Connect to the MongoDB database
-  
+
+
+
   try {
     // Query the users collection to check if the user exists
     const user = checkUser(username, password);

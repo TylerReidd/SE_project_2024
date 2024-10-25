@@ -36,28 +36,16 @@ async function checkRole(username) {
   }
 }
 
-async function loadGrades(username) {
-  try {
-    const data = await db.collection('GRADES').findOne({ username});
 
-    const tableBody = document.getElementById('grades_table').querySelector('tbody');
-    
-    // Clear any existing rows
-    tableBody.innerHTML = '';
-    
-    // Populate table with new data
-    data.forEach((item) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${item.classname}</td>
-        <td>${item.grade}</td>
-        <td>${item.professor}</td>
-        
-      `;
-      tableBody.appendChild(row);
-    });
+
+async function loadGrades(username) {
+  const db = await connectToMongo(); // Ensure db is connected
+  try {
+      const data = await db.collection('GRADES').find({ username }).toArray(); // Fetch all grades for the user
+      return data; // Return the data instead of manipulating the DOM
   } catch (error) {
-    console.error('Error loading data:', error);
+      console.error('Error loading data:', error);
+      throw error; // Propagate the error
   }
 }
 
