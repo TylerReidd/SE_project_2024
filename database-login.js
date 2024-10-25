@@ -27,16 +27,39 @@ async function checkUser(username, password) {
 
 async function checkRole(username) {
   const db = await connectToMongo();
-  
   try {
-    const user = await db.collection('USERS').findOne({ username});
-
+    const user = await db.collection('USERS').findOne({username});
     return user.role;
   } catch (error) {
-    console.error('No Role:', error);
+    console.error('No Role: ', error);
     throw error;
   }
 }
 
+async function loadGrades(username) {
+  try {
+    const data = await db.collection('GRADES').findOne({ username});
 
-module.exports = { checkUser, checkRole }; // Export the checkUser function for use in server.js
+    const tableBody = document.getElementById('grades_table').querySelector('tbody');
+    
+    // Clear any existing rows
+    tableBody.innerHTML = '';
+    
+    // Populate table with new data
+    data.forEach((item) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.classname}</td>
+        <td>${item.grade}</td>
+        <td>${item.professor}</td>
+        
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error('Error loading data:', error);
+  }
+}
+
+
+module.exports = { checkUser, checkRole, loadGrades }; // Export the checkUser function for use in server.js

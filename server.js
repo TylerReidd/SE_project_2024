@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { checkUser, checkRole } = require('./database-login');  // Import the checkUser function
+const { checkUser, checkRole, loadGrades } = require('./database-login');  // Import the checkUser function
 const { MongoClient } = require('mongodb');
  
 // Initialize the express app
@@ -25,14 +25,17 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html'); // Serve the login page (index.html)
 });
 
+//Serve the html professor page 
 app.get('/professor_page.html', (req, res) => {
   res.sendFile(__dirname + '/professor_page.html');
 })
 
+//serve the html student page
 app.get('/student_page.html', (req, res) => {
   res.sendFile(__dirname + '/student_page.html');
 })
 
+//serve the html admin page
 app.get('/admin_page.html', (req, res) => {
   res.sendFile(__dirname + '/admin_page.html');
 })
@@ -46,7 +49,6 @@ app.post('/database-login.js', async (req, res) => {
   try {
     // Query the users collection to check if the user exists
     const user = checkUser(username, password);
-   
 
     // If user exists, login is successful
     if (user) {
