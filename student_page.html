@@ -40,6 +40,7 @@
           <script>
             async function loadGrades(username) {
                 try {
+                   
                     const response = await fetch(`/load-grades/${username}`);
                     const grades = await response.json();
         
@@ -60,19 +61,6 @@
                     console.error('Error loading grades:', error);
                 }
             }
-
-           // const { URL } = require('url');
-
-            // function getURLVars(urlString) {
-            // const url = new URL(urlString);
-            // const params = {};
-            // url.searchParams.forEach((value, key) => {
-            //     params[key] = value;
-            // });
-            // return params;
-            // }
-        
-            // Call loadGrades when the page loads
             
             window.onload = function() {
                 const queryString = window.location.search;

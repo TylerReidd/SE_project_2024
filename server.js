@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { checkUser, checkRole, loadGrades } = require('./database-login');  // Import the checkUser function
+const { checkUser, checkRole, loadGrades, loadStudents } = require('./database-login');  // Import the checkUser function
 const { MongoClient } = require('mongodb');
 
 // Initialize the express app
@@ -51,6 +51,18 @@ app.get('/load-grades/:username', async (req, res) => {
   }
 });
 
+app.get('/load-students/:username', async (req, res) => {
+  const username = req.params.username;
+  try {
+      const students = await loadStudents(username);
+      console.log("STUDENTS: " + students); // Assuming loadGrades returns grades
+      res.json(students); // Send grades as JSON
+  } catch (error) {
+      console.error('Error loading grades:', error);
+      res.status(500).send('Error loading grades');
+  }
+});
+
 
 // POST route to handle login form submission
 app.post('/database-login.js', async (req, res) => {
@@ -67,10 +79,10 @@ app.post('/database-login.js', async (req, res) => {
     if (user) {
        const role = await checkRole(username);
        if (role == "prof") {
-        res.redirect('/professor_page.html');
+        res.redirect('/professor_page.html?username='+username);
        }
        else if (role == 'admin') {
-        res.redirect('/admin_page.html'); ;
+        res.redirect('/admin_page.html?username='+username); ;
        }
        else if (role == 'stud') {
         res.redirect('/student_page.html?username='+username);
