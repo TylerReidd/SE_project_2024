@@ -60,10 +60,25 @@
                     console.error('Error loading grades:', error);
                 }
             }
+
+           // const { URL } = require('url');
+
+            // function getURLVars(urlString) {
+            // const url = new URL(urlString);
+            // const params = {};
+            // url.searchParams.forEach((value, key) => {
+            //     params[key] = value;
+            // });
+            // return params;
+            // }
         
             // Call loadGrades when the page loads
+            
             window.onload = function() {
-                loadGrades("Mjones");
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const username = urlParams.get("username");
+                loadGrades(username);
             };
         </script>
         

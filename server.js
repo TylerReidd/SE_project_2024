@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { checkUser, checkRole, loadGrades } = require('./database-login');  // Import the checkUser function
 const { MongoClient } = require('mongodb');
- 
+
 // Initialize the express app
 const app = express();
 
@@ -73,7 +73,7 @@ app.post('/database-login.js', async (req, res) => {
         res.redirect('/admin_page.html'); ;
        }
        else if (role == 'stud') {
-        res.redirect('/student_page.html');
+        res.redirect('/student_page.html?username='+username);
        }
       // res.send('Login successful!' + role);
     } else {

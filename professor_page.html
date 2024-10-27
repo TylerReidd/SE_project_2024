@@ -27,9 +27,48 @@
     </style>
 </head>
 <body>
-    <div class="welcome-container">
-        <h1>Welcome to Professor's Page</h1>
-        <p>Explore the resources and announcements!</p>
-    </div>
+    <table id="grades_table" >
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Grade</th>
+            <th>Professor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be added dynamically here -->
+          <script>
+            async function loadGrades(username) {
+                try {
+                    const response = await fetch(`/load-grades/${username}`);
+                    const grades = await response.json();
+        
+                    const tableBody = document.getElementById('grades_table').querySelector('tbody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+        
+                    // Populate table with new data
+                    grades.forEach((item) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.classname}</td>
+                            <td>${item.grade}</td>
+                            <td>${item.professor}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error loading grades:', error);
+                }
+            }
+        
+            // Call loadGrades when the page loads
+            window.onload = function() {
+                loadGrades("Mjones");
+            };
+        </script>
+        
+
+        </tbody>
+      </table>
 </body>
 </html>
