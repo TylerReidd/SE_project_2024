@@ -88,6 +88,7 @@
             <th>Class</th>
             <th>Student</th>
             <th>Grade</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +111,23 @@
                                 <td>${item.classname}</td>
                                 <td>${item.name}</td>
                                 <td>${item.grade}</td>
+                                <td>
+                                    <select name="cars" id="cars">
+                                        <option value="A+">A+</option>
+                                        <option value="A">A</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B">B</option>
+                                        <option value="B-">B-</option>
+                                        <option value="C+">C+</option>
+                                        <option value="C">C</option>
+                                        <option value="C-">C-</option>
+                                        <option value="D+">D+</option>
+                                        <option value="D">D</option>
+                                        <option value="F">F</option>
+                                    </select> <button type='submit'>Submit</button>
+                                </td>
+                                    
                             `;
                             tableBody.appendChild(row);
                         });
