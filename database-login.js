@@ -17,8 +17,13 @@ async function checkUser(username, password) {
   
   try {
     // Query the users collection to find a matching username and password
-    const user = await db.collection('USERS').findOne({ username, password });
-    return !!user; // Return true if the user exists, false otherwise
+    const user = await db.collection('USERS').findOne({username});
+    if(user.username == username && user.password == password) {
+      return true;
+    } else {
+      return false;
+    }
+     // Return true if the user exists, false otherwise
   } catch (error) {
     console.error('Error checking user:', error); // Log any errors
     throw error; // Propagate the error
@@ -29,6 +34,7 @@ async function checkRole(username) {
   const db = await connectToMongo();
   try {
     const user = await db.collection('USERS').findOne({username});
+    
     return user.role;
   } catch (error) {
     console.error('No Role: ', error);

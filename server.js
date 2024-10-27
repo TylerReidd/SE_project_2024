@@ -61,8 +61,8 @@ app.post('/database-login.js', async (req, res) => {
 
   try {
     // Query the users collection to check if the user exists
-    const user = checkUser(username, password);
-
+    const user = await checkUser(username, password);
+    
     // If user exists, login is successful
     if (user) {
        const role = await checkRole(username);
