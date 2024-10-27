@@ -93,6 +93,14 @@
         </thead>
         <tbody>
             <script>
+                async function updateGrade(username, grade){
+                    console.log(username);
+                    console.log(grade);
+                    location.reload();
+                };
+
+
+
                 async function loadGrades(username) {
                     try {
                         console.log("USERNAME: " + username);
@@ -102,7 +110,7 @@
 
                         const tableBody = document.getElementById('grades_table').querySelector('tbody');
                         tableBody.innerHTML = ''; // Clear existing rows
-            
+                        let i = 0;
                         // Populate table with new data
                         grades.forEach((item) => {
                             const row = document.createElement('tr');
@@ -111,8 +119,9 @@
                                 <td>${item.classname}</td>
                                 <td>${item.name}</td>
                                 <td>${item.grade}</td>
+                                
                                 <td>
-                                    <select name="cars" id="cars">
+                                    <select name="grde-${i}" id="grde-${i}" >
                                         <option value="A+">A+</option>
                                         <option value="A">A</option>
                                         <option value="A-">A-</option>
@@ -125,11 +134,13 @@
                                         <option value="D+">D+</option>
                                         <option value="D">D</option>
                                         <option value="F">F</option>
-                                    </select> <button type='submit'>Submit</button>
+                                    </select> 
+                                    <button onclick="updateGrade('${item.name}', document.getElementById('grde-${i}').value)")"type='submit'>Submit</button>
                                 </td>
                                     
                             `;
                             tableBody.appendChild(row);
+                            i = i + 1;
                         });
                     } catch (error) {
                         console.error('Error loading grades:', error);
