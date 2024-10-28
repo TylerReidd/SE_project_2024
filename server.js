@@ -6,6 +6,8 @@ const {
   loadGrades,
   loadStudents,
   setGrade,
+  addUser,
+  loadUsers,
 } = require("./database-login"); // Import the checkUser function
 const { MongoClient } = require("mongodb");
 
@@ -56,6 +58,16 @@ app.get("/load-grades/:username", async (req, res) => {
   } catch (error) {
     console.error("Error loading grades:", error);
     res.status(500).send("Error loading grades");
+  }
+});
+
+app.get("/load-users", async (req, res) => {
+  try {
+    const users = await loadUsers();
+    res.json(users);
+  } catch (error) {
+    console.error("Error loading users:", error);
+    res.status(500).send("Error loading users");
   }
 });
 
