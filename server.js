@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { checkUser, checkRole, loadGrades, loadStudents } = require('./database-login');  // Import the checkUser function
+const { checkUser, checkRole, loadGrades, loadStudents, setGrade } = require('./database-login');  // Import the checkUser function
 const { MongoClient } = require('mongodb');
 
 // Initialize the express app
@@ -62,6 +62,13 @@ app.get('/load-students/:username', async (req, res) => {
       res.status(500).send('Error loading grades');
   }
 });
+
+
+app.post('/set-grade', async (req, res) => {
+  const {username, grade} = req.body;
+  update = await setGrade(username, grade);
+  
+})
 
 
 // POST route to handle login form submission

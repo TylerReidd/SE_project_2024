@@ -93,11 +93,32 @@
         </thead>
         <tbody>
             <script>
-                async function updateGrade(username, grade){
-                    console.log(username);
-                    console.log(grade);
-                    location.reload();
-                };
+                async function updateGrade(studentName, selectedGrade) {
+                    try {
+                        const response = await fetch('/set-grade', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                username: studentName,
+                                grade: selectedGrade
+                            })
+                        });
+                        location.reload();
+
+                        if (!response.ok) {
+                            throw new Error('Failed to update grade');
+                            
+                        }
+
+                        const result = await response.json();
+                        console.log('Grade updated:', result);
+                        alert(`Grade for ${studentName} updated to ${selectedGrade}`);
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                                };
 
 
 

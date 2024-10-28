@@ -42,6 +42,23 @@ async function checkRole(username) {
   }
 }
 
+//
+
+async function setGrade(username, grade) {
+ 
+  const db = await connectToMongo(); // Ensure db is connected
+  try {
+    db.GRADES.updateOne(
+      { name: username },
+      { $set: { grade: grade } }
+   ) // Fetch all grades for the user
+     
+  } catch (error) {
+      console.error('Error loading data:', error);
+      throw error; // Propagate the error
+  }
+}
+
 
 
 
@@ -75,4 +92,4 @@ async function loadStudents(username) {
 
 
 
-module.exports = { checkUser, checkRole, loadGrades, loadStudents }; // Export the checkUser function for use in server.js
+module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade }; // Export the checkUser function for use in server.js
