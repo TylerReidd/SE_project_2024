@@ -71,6 +71,24 @@ app.get("/load-students/:username", async (req, res) => {
   }
 });
 
+app.post("/add-user", async (req, res) => {
+  const { name, username, password, role } = req.body;
+  console.log("Name in Server: " + name);
+  console.log("Username in Server: " + username);
+  console.log("Password in Server: " + password);
+  console.log("Role in Server: " + role);
+
+  if (!name || !username || !password || !role) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+  try {
+    await addUser(name, username, password, role);
+    res.json({ message: "user has been made" });
+  } catch (error) {
+    res.status(500).send("Failed to create user");
+  }
+});
+
 app.post("/set-grade", async (req, res) => {
   const { username, grade } = req.body;
 

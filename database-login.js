@@ -57,6 +57,26 @@ async function setGrade(username, grade) {
   }
 }
 
+async function addUser(name, username, password, role) {
+  const db = await connectToMongo(); // Ensure db is connected
+  console.log("Name in DL: " + name);
+  console.log("Username in DL: " + username);
+  console.log("Password in DL: " + password);
+  console.log("Role in DL: " + role);
+  try {
+    const user = {
+      name: name,
+      username: username,
+      password: password, // Ensure to hash the password in a real application
+      role: role,
+    };
+    await db.collection("USERS").insertOne(user); // Fetch all grades for the user
+  } catch (error) {
+    console.error("Error loading data:", error);
+    throw error; // Propagate the error
+  }
+}
+
 async function loadGrades(username) {
   const db = await connectToMongo(); // Ensure db is connected
   try {
