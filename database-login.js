@@ -73,6 +73,22 @@ async function addUser(name, username, password, role) {
   }
 }
 
+async function deleteUser(passedUsername) {
+  console.log("Username in DB is: " + passedUsername)
+  const db = await connectToMongo(); // Ensure db is connected
+  try {
+
+    const filter = { username: passedUsername };
+
+    await db.collection("USERS").deleteOne(filter); // Fetch all grades for the user
+    return passedUsername;
+
+  } catch (error) {
+    console.error("Error deleting the user:", error);
+    throw error; // Propagate the error
+  }
+}
+
 async function assignStudentToCourse(passedProfessor, passedStudent, passedCourse) {
   const db = await connectToMongo(); // Ensure db is connected
   const name = passedStudent;
@@ -163,4 +179,4 @@ async function loadStudents(username) {
   }
 }
 
-module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers, loadAllGrades, loadUsersByRole, assignStudentToCourse }; // Export the checkUser function for use in server.js
+module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers, loadAllGrades, loadUsersByRole, assignStudentToCourse, deleteUser }; // Export the checkUser function for use in server.js

@@ -155,6 +155,7 @@
             <th>Username</th>
             <th>Password</th>
             <th>Role</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -289,6 +290,19 @@
                 }
             }
 
+            async function deleteUser(username)
+            {
+                try
+                {
+                const response = await fetch(`/delete-user/${username}`);
+                const data = await response.json();
+                location.reload();
+
+                }
+                catch (error) {
+                console.error("Error:", error);
+                }
+            }
 
             async function displayUsers() {
                 try {
@@ -307,6 +321,9 @@
                             <td>${item.username}</td>
                             <td>${item.password}</td>
                             <td>${item.role}</td>
+                            <td>
+                                <button onclick="deleteUser('${item.username}')" type="button">Delete</button>
+                            </td>
                         `;
                         tableBody.appendChild(row);
                     });

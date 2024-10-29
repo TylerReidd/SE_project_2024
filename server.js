@@ -11,6 +11,7 @@ const {
   loadAllGrades,
   loadUsersByRole,
   assignStudentToCourse,
+  deleteUser,
 } = require("./database-login"); // Import the checkUser function
 const { MongoClient } = require("mongodb");
 
@@ -108,6 +109,17 @@ app.get("/load-students/:username", async (req, res) => {
   }
 });
 
+app.get("/delete-user/:username", async (req, res) => {
+  const username = req.params.username;
+  try {
+    const response = await deleteUser(username);
+    res.json(response); // Send grades as JSON
+  } catch (error) {
+    console.error("error deleting user.", error);
+    res.status(500).send("Error deleting user.");
+  }
+});
+
 app.post("/add-user", async (req, res) => {
   const { name, username, password, role } = req.body;
   console.log("Name in Server: " + name);
@@ -155,6 +167,8 @@ app.post("/set-grade", async (req, res) => {
     res.status(500).send("Failed to update grade");
   }
 });
+
+
 
 // POST route to handle login form submission
 app.post("/database-login.js", async (req, res) => {
