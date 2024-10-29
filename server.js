@@ -8,7 +8,8 @@ const {
   setGrade,
   addUser,
   loadUsers,
-  loadAllGrades
+  loadAllGrades,
+  loadUsersByRole,
 } = require("./database-login"); // Import the checkUser function
 const { MongoClient } = require("mongodb");
 
@@ -75,6 +76,18 @@ app.get("/load-all-grades/", async (req, res) => {
 app.get("/load-users", async (req, res) => {
   try {
     const users = await loadUsers();
+    res.json(users);
+  } catch (error) {
+    console.error("Error loading users:", error);
+    res.status(500).send("Error loading users");
+  }
+});
+
+app.get("/load-users-by-role/:role", async (req, res) => {
+  const role = req.params.role;
+  try {
+    const users = await loadUsersByRole(role);
+    console.log("Users by Role:" + users);
     res.json(users);
   } catch (error) {
     console.error("Error loading users:", error);

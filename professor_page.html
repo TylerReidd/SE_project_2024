@@ -83,6 +83,7 @@
       </thead>
       <tbody>
         <script>
+
           async function updateGrade(studentName, selectedGrade) {
 
             try {
@@ -115,7 +116,6 @@
               console.log("USERNAME: " + username);
               const response = await fetch(`/load-students/${username}`);
               const grades = await response.json();
-              console.log(grades);
 
               const tableBody = document
                 .getElementById("grades_table")

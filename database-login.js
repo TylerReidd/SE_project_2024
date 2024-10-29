@@ -111,6 +111,17 @@ async function loadUsers() {
   }
 }
 
+async function loadUsersByRole(role) {
+  const db = await connectToMongo(); // Ensure db is connected
+  try {
+    const users = await db.collection("USERS").find({ role }).toArray();
+    return users; // Return the data instead of manipulating the DOM
+  } catch (error) {
+    console.error("Error loading users:", error);
+    throw error; // Propagate the error
+  }
+}
+
 async function loadStudents(username) {
   const db = await connectToMongo(); // Ensure db is connected
   try {
@@ -126,4 +137,4 @@ async function loadStudents(username) {
   }
 }
 
-module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers, loadAllGrades }; // Export the checkUser function for use in server.js
+module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers, loadAllGrades, loadUsersByRole }; // Export the checkUser function for use in server.js

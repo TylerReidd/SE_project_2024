@@ -100,35 +100,6 @@
     
   </head>
   <body>
-    <script>
-      async function addUser(passedName, passedUsername, passedPassword, passedRole) {
-        try {
-          const response = await fetch("/add-user", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json", // Ensure this is set
-            },
-            body: JSON.stringify({
-              name: passedName,
-              username: passedUsername,
-              password: passedPassword,
-              role: passedRole,
-            }),
-          });
-
-          if (!response.ok) {
-            throw new Error("Failed to create user");
-          }
-
-          const result = await response.json();
-
-          // Uncomment if you want to reload the page
-          location.reload();
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
-    </script>
 
     <div class="welcome-container">
       <h1>Add User</h1>
@@ -189,6 +160,80 @@
         <tbody>
           <!-- Rows will be added dynamically here -->
           <script>
+            async function getStudents()
+          {
+            try
+            {
+              const role = "student";
+              const response = await fetch(`/load-users-by-role/${role}`);
+              const students = await response.json();
+
+              const dropdown = document.getElementById('student_dropdown');
+
+              students.forEach(item => {
+
+                    const optionElement = document.createElement('option');
+                    optionElement.value = item.name;
+                    optionElement.textContent = item.name;
+                    dropdown.appendChild(optionElement);
+                });
+            }
+            catch (error) {
+              console.error("Error:", error);
+            }
+          };
+
+          async function getProfessors()
+          {
+            try
+            {
+              const role = "professor";
+              const response = await fetch(`/load-users-by-role/${role}`);
+              const professors = await response.json();
+              console.log(professors);
+
+              const dropdown = document.getElementById('professor_dropdown');
+
+              professors.forEach(item => {
+
+                    const optionElement = document.createElement('option');
+                    optionElement.value = item.name;
+                    optionElement.textContent = item.name;
+                    dropdown.appendChild(optionElement);
+                });
+            }
+            catch (error) {
+              console.error("Error:", error);
+            }
+          };
+
+      async function addUser(passedName, passedUsername, passedPassword, passedRole) {
+        try {
+          const response = await fetch("/add-user", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json", // Ensure this is set
+            },
+            body: JSON.stringify({
+              name: passedName,
+              username: passedUsername,
+              password: passedPassword,
+              role: passedRole,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to create user");
+          }
+
+          const result = await response.json();
+
+          // Uncomment if you want to reload the page
+          location.reload();
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
             async function loadAllGrades() {
                 try {
                    
@@ -239,9 +284,12 @@
                 }
             }
             
-            window.onload = function() {
+            window.onload = function()
+            {
+              getProfessors();
+              getStudents();
               loadAllGrades();
-                displayUsers();
+              displayUsers();
             };
         </script>
         </tbody>
@@ -251,13 +299,13 @@
       <form id="addCourseForm">
         <!-- Professor dropdown -->
         <label for="professor">Professor:</label>
-        <select id="professor" name="professor" required>
+        <select id="professor_dropdown" name="professor_dropdown" required>
     
         </select>
 
         <!-- Student dropdown -->
         <label for="student">Student:</label>
-        <select id="student" name="student" required>
+        <select id="student_dropdown" name="student_dropdown" required>
     
         </select>
 
