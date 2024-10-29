@@ -88,6 +88,18 @@ async function loadGrades(username) {
   }
 }
 
+async function loadAllGrades() {
+  const db = await connectToMongo(); // Ensure db is connected
+  try {
+    const data = await db.collection("GRADES").find({ }).toArray(); // Fetch all grades for the user
+    return data; // Return the data instead of manipulating the DOM
+  } catch (error) {
+    console.error("Error loading data:", error);
+    throw error; // Propagate the error
+  }
+}
+
+
 async function loadUsers() {
   const db = await connectToMongo(); // Ensure db is connected
   try {
@@ -114,4 +126,4 @@ async function loadStudents(username) {
   }
 }
 
-module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers }; // Export the checkUser function for use in server.js
+module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers, loadAllGrades }; // Export the checkUser function for use in server.js

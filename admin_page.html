@@ -189,6 +189,31 @@
         <tbody>
           <!-- Rows will be added dynamically here -->
           <script>
+            async function loadAllGrades() {
+                try {
+                   
+                    const response = await fetch(`/load-all-grades/`);
+                    const grades = await response.json();
+        
+                    const tableBody = document.getElementById('grades_table').querySelector('tbody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+        
+                    // Populate table with new data
+                    grades.forEach((item) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.classname}</td>
+                            <td>${item.grade}</td>
+                            <td>${item.professor}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error loading grades:', error);
+                }
+            }
+
+
             async function displayUsers() {
                 try {
                    
@@ -215,10 +240,54 @@
             }
             
             window.onload = function() {
+              loadAllGrades();
                 displayUsers();
             };
         </script>
-        
+        </tbody>
+      </table>
+
+      <h1>Assign Students to Course</h1>
+      <form id="addCourseForm">
+        <!-- Professor dropdown -->
+        <label for="professor">Professor:</label>
+        <select id="professor" name="professor" required>
+    
+        </select>
+
+        <!-- Student dropdown -->
+        <label for="student">Student:</label>
+        <select id="student" name="student" required>
+    
+        </select>
+
+        <!-- Course dropdown -->
+        <label for="course">Course:</label>
+        <select id="course" name="course" required>
+          <option value="" disabled selected>Select Course</option>
+          <option value="history">History</option>
+          <option value="math">Math</option>
+          <option value="science">Science</option>
+        </select>
+
+        <button
+          onclick="addUser(document.getElementById('name').value, document.getElementById('username').value, document.getElementById('password').value, document.getElementById('role').value)"
+          type="button"
+        >
+          Submit
+        </button>
+      </form>
+
+      <h1>Grades</h1>
+      <table id="grades_table" >
+        <thead>
+          <tr>
+            <th>Classname</th>
+            <th>Grade</th>
+            <th>Professor</th>
+          </tr>
+        </thead>
+        <tbody>
 
         </tbody>
       </table>
