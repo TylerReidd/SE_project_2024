@@ -5,26 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professor's Page</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .welcome-container {
-            text-align: center;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+        
+        /* General Reset */
+        * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       /* Body Styling */
+       body {
+           font-family: Arial, sans-serif;
+           background-color: #f7f9fc;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           margin: 0;
+       }
+
+       /* Table Container */
+       .table-container {
+           background-color: #ffffff;
+           padding: 30px;
+           border-radius: 10px;
+           box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+           max-width: 800px;
+           width: 75%;
+           text-align: center;
+       }
+
+       /* Table Header Styling */
+       h1 {
+           color: #333;
+           font-size: 24px;
+           margin-bottom: 20px;
+       }
+
+       /* Table Styling */
+       table {
+           width: 100%;
+           border-collapse: collapse;
+           font-size: 16px;
+           color: #333;
+       }
+
+       td {
+           padding: 15px;
+           border: 1px solid #ddd;
+       }
+
+       th {
+           background-color: #3da370;
+           color: #ffffff;
+           font-weight: bold;
+       }
+
+       td {
+           background-color: #f9f9f9;
+       }
+
+       /* Table Row Hover Effect */
+       tr:hover td {
+           background-color: #eef2f7;
+       }
+
+       body {
+           font-family: Arial, sans-serif;
+           background-color: #f0f0f0;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           margin: 0;
+       }
+       .welcome-container {
+           text-align: center;
+           background-color: #fff;
+           padding: 30px;
+           border-radius: 8px;
+           box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+       }
+       h1 {
+           color: #333;
+       }
+   </style>
+
 </head>
 <body>
     <table id="grades_table" >
