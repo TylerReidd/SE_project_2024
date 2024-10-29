@@ -59,10 +59,6 @@ async function setGrade(username, grade) {
 
 async function addUser(name, username, password, role) {
   const db = await connectToMongo(); // Ensure db is connected
-  console.log("Name in DL: " + name);
-  console.log("Username in DL: " + username);
-  console.log("Password in DL: " + password);
-  console.log("Role in DL: " + role);
   try {
     const user = {
       name: name,
@@ -71,6 +67,36 @@ async function addUser(name, username, password, role) {
       role: role,
     };
     await db.collection("USERS").insertOne(user); // Fetch all grades for the user
+  } catch (error) {
+    console.error("Error loading data:", error);
+    throw error; // Propagate the error
+  }
+}
+
+async function assignStudentToCourse(passedProfessor, passedStudent, passedCourse) {
+  const db = await connectToMongo(); // Ensure db is connected
+  const name = passedStudent;
+  console.log("professor in DL: " + passedProfessor);
+  console.log("student in DL: " + passedStudent);
+  console.log("course in DL: " + passedCourse);
+  try {
+    const data = await db.collection("GRADES").find({ passedStudent }).toArray(); // Fetch all grades for the user
+    const user = await db.collection("USERS").findOne({ name }); // Fetch all grades for the user
+    if(data.length > 0)
+    {
+      console.error("Student already assigned to course.")
+    }
+    else
+    {
+      const grade = {
+        professor: passedProfessor,
+        student: passedStudent,
+        classname: passedCourse,
+        grade: "N/A",
+        username: user.username,
+      };
+      await db.collection("GRADES").insertOne(grade);
+    }
   } catch (error) {
     console.error("Error loading data:", error);
     throw error; // Propagate the error
@@ -137,4 +163,4 @@ async function loadStudents(username) {
   }
 }
 
-module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers, loadAllGrades, loadUsersByRole }; // Export the checkUser function for use in server.js
+module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers, loadAllGrades, loadUsersByRole, assignStudentToCourse }; // Export the checkUser function for use in server.js

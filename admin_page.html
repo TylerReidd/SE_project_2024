@@ -207,6 +207,37 @@
             }
           };
 
+          async function assignStudentToCourse(passedProfessor, passedStudent, passedCourse) {
+            console.log("Admin Page Professor " + passedProfessor);
+            console.log("Admin Page Student " + passedStudent);
+            console.log("Admin Page course " + passedCourse);
+
+            try {
+            const response = await fetch("/assign-student-course", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json", // Ensure this is set
+            },
+            body: JSON.stringify({
+              professor: passedProfessor,
+              student: passedStudent,
+              course: passedCourse,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to assign student to a course.");
+          }
+
+          const result = await response.json();
+
+          // Uncomment if you want to reload the page
+          location.reload();
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+
       async function addUser(passedName, passedUsername, passedPassword, passedRole) {
         try {
           const response = await fetch("/add-user", {
@@ -300,18 +331,20 @@
         <!-- Professor dropdown -->
         <label for="professor">Professor:</label>
         <select id="professor_dropdown" name="professor_dropdown" required>
+        <option value="" disabled selected>Select Professor</option>
     
         </select>
 
         <!-- Student dropdown -->
         <label for="student">Student:</label>
         <select id="student_dropdown" name="student_dropdown" required>
+        <option value="" disabled selected>Select Student</option>
     
         </select>
 
         <!-- Course dropdown -->
         <label for="course">Course:</label>
-        <select id="course" name="course" required>
+        <select id="course_dropdown" name="course_dropdown" required>
           <option value="" disabled selected>Select Course</option>
           <option value="history">History</option>
           <option value="math">Math</option>
@@ -319,7 +352,7 @@
         </select>
 
         <button
-          onclick="addUser(document.getElementById('name').value, document.getElementById('username').value, document.getElementById('password').value, document.getElementById('role').value)"
+          onclick = "assignStudentToCourse(document.getElementById('professor_dropdown').value, document.getElementById('student_dropdown').value, document.getElementById('course_dropdown').value)"
           type="button"
         >
           Submit

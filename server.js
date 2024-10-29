@@ -10,6 +10,7 @@ const {
   loadUsers,
   loadAllGrades,
   loadUsersByRole,
+  assignStudentToCourse,
 } = require("./database-login"); // Import the checkUser function
 const { MongoClient } = require("mongodb");
 
@@ -125,6 +126,20 @@ app.post("/add-user", async (req, res) => {
   }
 });
 
+app.post("/assign-student-course", async (req, res) => {
+  const { professor, student, course} = req.body;
+
+  if (!professor || !student || !course) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+  try {
+    await assignStudentToCourse(professor, student, course);
+    res.json({ message: "student has been assigned to a course." });
+  } catch (error) {
+    res.status(500).send("Failed to assigned student to a course.");
+  }
+});
+
 app.post("/set-grade", async (req, res) => {
   const { username, grade } = req.body;
 
@@ -153,11 +168,11 @@ app.post("/database-login.js", async (req, res) => {
     // If user exists, login is successful
     if (user) {
       const role = await checkRole(username);
-      if (role == "prof") {
+      if (role == "professor") {
         res.redirect("/professor_page.html?username=" + username);
       } else if (role == "admin") {
         res.redirect("/admin_page.html?username=" + username);
-      } else if (role == "stud") {
+      } else if (role == "student") {
         res.redirect("/student_page.html?username=" + username);
       }
       // res.send('Login successful!' + role);
