@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Professor's Page</title>
     <style>
-      /* General Reset */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
 
-      /* Body Styling */
       body {
         font-family: Arial, sans-serif;
         background-color: #f7f9fc;
@@ -23,7 +21,6 @@
         margin: 0;
       }
 
-      /* Table Container */
       .table-container {
         background-color: #ffffff;
         padding: 30px;
@@ -34,14 +31,12 @@
         text-align: center;
       }
 
-      /* Table Header Styling */
       h1 {
         color: #333;
         font-size: 24px;
         margin-bottom: 20px;
       }
 
-      /* Table Styling */
       table {
         width: 100%;
         border-collapse: collapse;
@@ -65,7 +60,6 @@
         background-color: #f9f9f9;
       }
 
-      /* Table Row Hover Effect */
       tr:hover td {
         background-color: #eef2f7;
       }
@@ -90,7 +84,7 @@
               const response = await fetch("/set-grade", {
                 method: "POST",
                 headers: {
-                  "Content-Type": "application/json", // Ensure this is set
+                  "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                   username: studentName,

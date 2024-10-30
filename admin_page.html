@@ -61,8 +61,7 @@
       button:hover {
         background-color: #45a049;
       }
-    
-      /* Table Styling */
+
       .table-container {
         margin-top: 20px;
         overflow-x: auto;
@@ -92,7 +91,6 @@
         background-color: #f9f9f9;
       }
     
-      /* Table Row Hover Effect */
       tr:hover td {
         background-color: #eef2f7;
       }
@@ -159,7 +157,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Rows will be added dynamically here -->
           <script>
             async function getStudents()
           {
@@ -214,7 +211,7 @@
             const response = await fetch("/assign-student-course", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json", // Ensure this is set
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               professor: passedProfessor,
@@ -241,7 +238,7 @@
           const response = await fetch("/add-user", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json", // Ensure this is set
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               name: passedName,
@@ -251,13 +248,9 @@
             }),
           });
 
-          if (!response.ok) {
-            throw new Error("Failed to create user");
-          }
 
           const result = await response.json();
 
-          // Uncomment if you want to reload the page
           location.reload();
         } catch (error) {
           console.error("Error:", error);
@@ -270,9 +263,8 @@
                     const grades = await response.json();
         
                     const tableBody = document.getElementById('grades_table').querySelector('tbody');
-                    tableBody.innerHTML = ''; // Clear existing rows
+                    tableBody.innerHTML = '';
         
-                    // Populate table with new data
                     grades.forEach((item) => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
