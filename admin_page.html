@@ -209,9 +209,6 @@
           };
 
           async function assignStudentToCourse(passedProfessor, passedStudent, passedCourse) {
-            console.log("Admin Page Professor " + passedProfessor);
-            console.log("Admin Page Student " + passedStudent);
-            console.log("Admin Page course " + passedCourse);
 
             try {
             const response = await fetch("/assign-student-course", {

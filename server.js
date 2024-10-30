@@ -12,7 +12,7 @@ const {
   loadUsersByRole,
   assignStudentToCourse,
   deleteUser,
-} = require("./database-login"); // Import the checkUser function
+} = require("./database-login"); 
 const { MongoClient } = require("mongodb");
 
 // Initialize the express app
@@ -36,7 +36,7 @@ async function connectToMongo() {
 
 // Serve the HTML login page
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html"); // Serve the login page (index.html)
+  res.sendFile(__dirname + "/index.html"); 
 });
 
 //Serve the html professor page
@@ -89,7 +89,6 @@ app.get("/load-users-by-role/:role", async (req, res) => {
   const role = req.params.role;
   try {
     const users = await loadUsersByRole(role);
-    console.log("Users by Role:" + users);
     res.json(users);
   } catch (error) {
     console.error("Error loading users:", error);
@@ -101,8 +100,7 @@ app.get("/load-students/:username", async (req, res) => {
   const username = req.params.username;
   try {
     const students = await loadStudents(username);
-    console.log("STUDENTS: " + students); // Assuming loadGrades returns grades
-    res.json(students); // Send grades as JSON
+    res.json(students); 
   } catch (error) {
     console.error("Error loading grades:", error);
     res.status(500).send("Error loading grades");
@@ -113,7 +111,7 @@ app.get("/delete-user/:username", async (req, res) => {
   const username = req.params.username;
   try {
     const response = await deleteUser(username);
-    res.json(response); // Send grades as JSON
+    res.json(response); 
   } catch (error) {
     console.error("error deleting user.", error);
     res.status(500).send("Error deleting user.");
@@ -122,11 +120,6 @@ app.get("/delete-user/:username", async (req, res) => {
 
 app.post("/add-user", async (req, res) => {
   const { name, username, password, role } = req.body;
-  console.log("Name in Server: " + name);
-  console.log("Username in Server: " + username);
-  console.log("Password in Server: " + password);
-  console.log("Role in Server: " + role);
-
   if (!name || !username || !password || !role) {
     return res.status(400).json({ message: "All fields are required." });
   }
