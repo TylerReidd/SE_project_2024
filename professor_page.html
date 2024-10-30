@@ -104,7 +104,6 @@
 
               const result = await response.json();
 
-              // Uncomment if you want to reload the page
               location.reload();
             } catch (error) {
               console.error("Error:", error);
@@ -120,9 +119,9 @@
               const tableBody = document
                 .getElementById("grades_table")
                 .querySelector("tbody");
-              tableBody.innerHTML = ""; // Clear existing rows
+              tableBody.innerHTML = "";
               let i = 0;
-              // Populate table with new data
+          
               grades.forEach((item) => {
                 const row = document.createElement("tr");
 
