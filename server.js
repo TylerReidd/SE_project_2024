@@ -1,6 +1,10 @@
+//Server.js file
+//This file handles the get and post functions from each seperate html page.
+//Uses the procedures from the database log in file.
 const express = require("express");
 const bodyParser = require("body-parser");
 const {
+  //importing functions.
   checkUser,
   checkRole,
   loadGrades,
@@ -31,7 +35,7 @@ async function connectToMongo() {
   return client.db(dbName);
 }
 
-
+//Used help from AI to understand how to format posting functions.
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html"); 
 });

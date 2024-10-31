@@ -1,3 +1,5 @@
+//database login.js file
+//This file is used to hold all of the individual database query functions which connect to the html pages along with the server.js pages.
 const { MongoClient } = require("mongodb");
 
 
@@ -12,7 +14,7 @@ async function connectToMongo()
   return client.db(dbName); 
 }
 
-
+//Used AI to assist in the formatting of the Mongo-DB query:
 async function checkUser(username, password)
 {
   const db = await connectToMongo(); 
@@ -205,4 +207,5 @@ async function loadStudents(username)
   }
 }
 
+//Exporting all of the functions to be available for the html and server.js pages.
 module.exports = { checkUser, checkRole, loadGrades, loadStudents, setGrade, addUser, loadUsers, loadAllGrades, loadUsersByRole, assignStudentToCourse, deleteUser };
